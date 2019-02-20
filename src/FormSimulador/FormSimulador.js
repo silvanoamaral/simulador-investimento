@@ -16,7 +16,8 @@ export default class FormSimulador extends Component {
       mensalidadeValid: false,
       contribuicaoMesesValid: false,
       formValid: false,
-      form: { message: "" }
+      form: { message: "" },
+      msgError: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -89,7 +90,7 @@ export default class FormSimulador extends Component {
         formValid: false
       });
 
-      fetch('http://api.mathjs.org/v4/', {
+      fetch('https://api.mathjs.org/v4/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -118,6 +119,7 @@ export default class FormSimulador extends Component {
       }).catch(error => {
         console.error(error.message);
         this.setState ({
+          msgError: 'Falha ao enviar o formulário. Tente mais tarde.',
           formValid: true
         });
       });
@@ -163,6 +165,7 @@ export default class FormSimulador extends Component {
 
           <input type="submit" value="Submit" className="btn btn__primary" disabled={ !this.state.formValid } />
         </form>
+        <p className="error__msg">{ this.state.msgError }</p>
       </div>
     );
   }
